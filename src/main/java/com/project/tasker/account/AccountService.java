@@ -12,6 +12,12 @@ public class AccountService {
 
 	private final AccountRepository accountRepository;
 
+	/**
+	 * Creates and saves an account with the given email address.
+	 *
+	 * @param email the email address for the new account
+	 * @return the saved account
+	 */
 	public Account create(final String email) {
 		if (this.accountRepository.existsByEmail(email)) {
 			// TODO: Exception: Account already exists
@@ -22,6 +28,13 @@ public class AccountService {
 		return this.accountRepository.save(account);
 	}
 
+	/**
+	 * Updates the full name of the account with the given ID.
+	 *
+	 * @param id       the account ID
+	 * @param fullName the new full name
+	 * @return the updated account
+	 */
 	public Account update(final UUID id, final String fullName) {
 		final Account account = this.accountRepository.findById(id).orElseThrow(); // TODO: Exception: Account not found
 
