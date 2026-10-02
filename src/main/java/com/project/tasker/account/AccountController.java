@@ -19,6 +19,12 @@ public class AccountController {
 
 	private final AccountService accountService;
 
+	/**
+	 * Updates the authenticated account's profile information.
+	 *
+	 * @param principal the authenticated account principal
+	 * @param request   the updated profile information
+	 */
 	@PutMapping("/profile")
 	public void updateProfile(@AuthPrincipal final Principal principal, @Valid @RequestBody final UpdateProfileRequest request) {
 		this.accountService.update(principal.accountId(), request.fullName());
