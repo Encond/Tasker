@@ -22,9 +22,9 @@ public class AccountService {
 		return this.accountRepository.save(account);
 	}
 
-	public Account update(final UUID id, String fullName) {
+	public Account update(final UUID id, final String fullName) {
 		final Account account = this.accountRepository.findById(id).orElseThrow(); // TODO: Exception: Account not found
-		
+
 		account.updateFullName(fullName);
 		this.accountRepository.save(account);
 
