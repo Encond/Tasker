@@ -57,9 +57,9 @@ public class PasswordService {
 
 		if (!account.hasPassword() || !this.passwordEncoder.matches(currentPassword, account.getPasswordHash())) {
 			// TODO: Exception: Incorrect password
-
-			account.updatePasswordHash(this.passwordEncoder.encode(newPassword));
 		}
+
+		account.updatePasswordHash(this.passwordEncoder.encode(newPassword));
 	}
 
 }
