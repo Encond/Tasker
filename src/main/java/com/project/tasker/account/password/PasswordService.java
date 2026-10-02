@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.tasker.account.Account;
 import com.project.tasker.account.AccountRepository;
+import com.project.tasker.email.EmailService;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class PasswordService {
 
 	private final PasswordResetTokenService passwordResetTokenService;
 	private final AccountRepository accountRepository;
+	private final EmailService emailService;
 
 	private final PasswordEncoder passwordEncoder;
 
@@ -29,7 +31,7 @@ public class PasswordService {
 		final Account account = this.accountRepository.findById(accountId).orElseThrow(); // TODO: Exception: Account not found
 		final String token = this.passwordResetTokenService.create(account);
 
-		// TODO: Send email notification
+		this.emailService.sendPasswordResetToken(account.getEmail(), token);
 	}
 
 	/**
