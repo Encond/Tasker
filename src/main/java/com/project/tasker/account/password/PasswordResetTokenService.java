@@ -50,7 +50,7 @@ public class PasswordResetTokenService {
 	 */
 	@Transactional
 	public Account consume(final String token) {
-		final PasswordResetToken passwordResetToken = this.passwordResetTokenRepository.findByTokenHash(this.hash(token)).orElseThrow();
+		final PasswordResetToken passwordResetToken = this.passwordResetTokenRepository.findByTokenHash(this.hash(token)).orElseThrow(); // TODO: Exception: PasswordResetToken not found
 
 		if (passwordResetToken.isExpired() || passwordResetToken.isUsed()) {
 			// TODO: Exception: Invalid password reset token
