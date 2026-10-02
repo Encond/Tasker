@@ -25,6 +25,12 @@ public class PasswordResetTokenService {
 
 	private final SecureRandom secureRandom;
 
+	/**
+	 * Creates and saves a password reset token for the given account.
+	 *
+	 * @param account the account requesting a password reset
+	 * @return the raw password reset token
+	 */
 	public String create(final Account account) {
 		final String token = this.generateToken();
 		final String tokenHash = this.hash(token);
@@ -36,6 +42,12 @@ public class PasswordResetTokenService {
 		return token;
 	}
 
+	/**
+	 * Validates and marks the password reset token as used.
+	 *
+	 * @param token the raw password reset token
+	 * @return the account associated with the token
+	 */
 	@Transactional
 	public Account consume(final String token) {
 		final PasswordResetToken passwordResetToken = this.passwordResetTokenRepository.findByTokenHash(this.hash(token)).orElseThrow();
