@@ -18,6 +18,12 @@ public class EmailService {
 	private final JavaMailSender javaMailSender;
 	private final TemplateEngine templateEngine;
 
+	/**
+	 * Sends a password reset token to the given email address.
+	 *
+	 * @param email the recipient's email address
+	 * @param token the password reset token
+	 */
 	public void sendPasswordResetToken(final String email, final String token) {
 		final Context context = new Context();
 		context.setVariable("token", token);
