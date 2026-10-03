@@ -25,6 +25,12 @@ public class AuthService {
 
 	private final PasswordEncoder passwordEncoder;
 
+	/**
+	 * Determines the authentication method available for the given email.
+	 *
+	 * @param email the email address to authenticate
+	 * @return the authentication method available for the email
+	 */
 	public AuthMethod determineAuthenticationMethod(final String email) {
 		final Account account = this.accountRepository.findByEmail(email).orElse(null);
 
@@ -35,11 +41,24 @@ public class AuthService {
 		return AuthMethod.PASSWORD;
 	}
 
+	/**
+	 * Creates and sends an authentication code to the given email address.
+	 *
+	 * @param email the email address to send the code to
+	 */
 	public void requestAuthenticationCode(final String email) {
 		final String temporaryCode = this.temporaryCodeService.create(email);
 		this.emailService.sendAuthenticationCode(email, temporaryCode);
 	}
 
+	/**
+	 * Authenticates an account using a temporary authentication code. Creates the
+	 * account if no account exists for the given email.
+	 *
+	 * @param email the email address to authenticate
+	 * @param code  the authentication code
+	 * @return the issued access and refresh tokens
+	 */
 	public AuthResult authenticateWithCode(final String email, final String code) {
 		this.temporaryCodeService.consume(email, code);
 
@@ -48,6 +67,13 @@ public class AuthService {
 		return this.tokenService.issue(account);
 	}
 
+	/**
+	 * Authenticates an account using its password.
+	 *
+	 * @param email    the account's email address
+	 * @param password the account's password
+	 * @return the issued access and refresh tokens
+	 */
 	public AuthResult authenticateWithPassword(final String email, final String password) {
 		final Account account = this.accountRepository.findByEmail(email).orElseThrow();
 
