@@ -17,6 +17,12 @@ public class TemporaryCodeService {
 	private final StringRedisTemplate stringRedisTemplate;
 	private final SecureRandom secureRandom;
 
+	/**
+	 * Creates and stores a temporary authentication code for the given email.
+	 *
+	 * @param email the email address associated with the code
+	 * @return the generated authentication code
+	 */
 	public String create(final String email) {
 		final String code = String.format("%06d", this.secureRandom.nextInt(1_000_000));
 		final String key = this.key(email);
@@ -25,6 +31,12 @@ public class TemporaryCodeService {
 		return code;
 	}
 
+	/**
+	 * Validates and consumes the authentication code for the given email.
+	 *
+	 * @param email the email address associated with the code
+	 * @param code  the authentication code to consume
+	 */
 	public void consume(final String email, final String code) {
 		final String key = this.key(email);
 		final String storedCode = this.stringRedisTemplate.opsForValue().get(key);
