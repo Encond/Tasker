@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import com.project.tasker.account.Account;
 import com.project.tasker.account.AccountRepository;
 import com.project.tasker.account.AccountService;
+import com.project.tasker.auth.code.TemporaryCodeService;
 import com.project.tasker.auth.token.AuthResult;
 import com.project.tasker.auth.token.TokenService;
+import com.project.tasker.email.EmailService;
 
 import lombok.AllArgsConstructor;
 
@@ -18,6 +20,9 @@ public class AuthService {
 	private final AccountRepository accountRepository;
 	private final AccountService accountService;
 	private final TokenService tokenService;
+	private final TemporaryCodeService temporaryCodeService;
+	private final EmailService emailService;
+
 	private final PasswordEncoder passwordEncoder;
 
 	public AuthMethod determineAuthenticationMethod(final String email) {
@@ -31,12 +36,12 @@ public class AuthService {
 	}
 
 	public void requestAuthenticationCode(final String email) {
-		// TODO: Create temporary code
-		// TODO: Send email
+		final String temporaryCode = this.temporaryCodeService.create(email);
+		this.emailService.sendAuthenticationCode(email, temporaryCode);
 	}
 
 	public AuthResult authenticateWithCode(final String email, final String code) {
-		// TODO: Consume temporary code
+		this.temporaryCodeService.consume(email, code);
 
 		final Account account = this.accountRepository.findByEmail(email).orElseGet(() -> this.accountService.create(email));
 
