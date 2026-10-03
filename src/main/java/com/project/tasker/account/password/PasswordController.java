@@ -22,18 +22,34 @@ public class PasswordController {
 
 	private final PasswordService passwordService;
 
+	/**
+	 * Requests a password reset for the authenticated account.
+	 *
+	 * @param principal the authenticated account principal
+	 */
 	@PostMapping("/reset/request")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void requestPasswordReset(@AuthPrincipal final Principal principal) {
 		this.passwordService.requestPasswordReset(principal.accountId());
 	}
 
+	/**
+	 * Resets the password using the given token.
+	 *
+	 * @param request the password reset information
+	 */
 	@PostMapping("/reset")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void resetPassword(@Valid @RequestBody final PasswordResetRequest request) {
 		this.passwordService.resetPassword(request.token(), request.newPassword());
 	}
 
+	/**
+	 * Changes the authenticated account's password.
+	 *
+	 * @param principal the authenticated account principal
+	 * @param request   the password change information
+	 */
 	@PostMapping("/change")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void changePassword(@AuthPrincipal final Principal principal, @Valid @RequestBody final ChangePasswordRequest request) {
