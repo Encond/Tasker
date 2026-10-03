@@ -35,6 +35,12 @@ public class EmailService {
 		this.sendHtml(email, "Password reset request", html);
 	}
 
+	/**
+	 * Sends an authentication code to the given email address.
+	 *
+	 * @param email the recipient's email address
+	 * @param code  the authentication code
+	 */
 	public void sendAuthenticationCode(final String email, final String code) {
 		final Context context = new Context();
 		context.setVariable("code", code);
