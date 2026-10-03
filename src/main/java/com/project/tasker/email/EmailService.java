@@ -35,6 +35,15 @@ public class EmailService {
 		this.sendHtml(email, "Password reset request", html);
 	}
 
+	public void sendAuthenticationCode(final String email, final String code) {
+		final Context context = new Context();
+		context.setVariable("code", code);
+
+		final String html = this.templateEngine.process("authentication-code", context);
+
+		this.sendHtml(email, "Your authentication code", html);
+	}
+
 	private void sendHtml(final String email, final String subject, final String html) {
 		final MimeMessage message = this.javaMailSender.createMimeMessage();
 
