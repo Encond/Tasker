@@ -18,6 +18,13 @@ public class OAuthIdentityService {
 	private final OAuthIdentityRepository oAuthIdentityRepository;
 	private final AccountRepository accountRepository;
 
+	/**
+	 * Links an OAuth identity to an account.
+	 *
+	 * @param accountId      the ID of the account to link the OAuth identity to
+	 * @param provider       the OAuth provider
+	 * @param providerUserId the user's ID assigned by the OAuth provider
+	 */
 	@Transactional
 	public void link(final UUID accountId, final OAuthProvider provider, final String providerUserId) {
 		final Account account = this.accountRepository.findById(accountId).orElseThrow(); // TODO: Exception: Account not found
@@ -36,6 +43,12 @@ public class OAuthIdentityService {
 		this.oAuthIdentityRepository.save(oAuthIdentity);
 	}
 
+	/**
+	 * Unlinks an OAuth identity from an account.
+	 *
+	 * @param accountId the ID of the account to unlink the OAuth identity from
+	 * @param provider  the OAuth provider
+	 */
 	@Transactional
 	public void unlink(final UUID accountId, final OAuthProvider provider) {
 		if (!this.accountRepository.existsById(accountId)) {
