@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Authentication Code</title>
+</head>
+<body>
+    <h1 th:text="${code}">000000</h1>
+
+    <p>
+        is your Tasker verification code.<br>
+        Please enter this code to verify your identity.
+    </p>
+
+    <p>This code expires in 5 minutes.</p>
+
+    <p>
+        If you didn't request this code,
+        you can safely ignore this email.
+    </p>
+
+    <hr>
+
+    <h2>TASKER</h2>
+    <p>Manage your tasks with Tasker</p>
+</body>
+</html>
