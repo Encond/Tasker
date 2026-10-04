@@ -2,6 +2,7 @@ package com.project.tasker.account.password;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -50,7 +51,7 @@ public class PasswordController {
 	 * @param principal the authenticated account principal
 	 * @param request   the password change information
 	 */
-	@PostMapping("/change")
+	@PutMapping("/change")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void changePassword(@AuthPrincipal final Principal principal, @Valid @RequestBody final ChangePasswordRequest request) {
 		this.passwordService.changePassword(principal.accountId(), request.currentPassword(), request.newPassword());
