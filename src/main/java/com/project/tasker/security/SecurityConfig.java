@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.project.tasker.auth.oauth.OAuthSuccessHandler;
+
 @Configuration
 public class SecurityConfig {
 
@@ -24,11 +26,13 @@ public class SecurityConfig {
 				"/swagger-ui.html",
 				"/v3/api-docs/**"
 		};
-		// @formatter:on
+	// @formatter:on
 
 	@Bean
-	SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity, final JwtAuthenticationFilter jwtAuthenticationFilter) {
-		// @formatter:off
+	// @formatter:off
+	SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity,
+											final JwtAuthenticationFilter jwtAuthenticationFilter,
+											final OAuthSuccessHandler oAuthSuccessHandler) {
 		return httpSecurity
 				.csrf(AbstractHttpConfigurer::disable)
 				.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
@@ -39,8 +43,9 @@ public class SecurityConfig {
 					auth.anyRequest().authenticated();
 				})
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+				.oauth2Login(oAuth -> oAuth.successHandler(oAuthSuccessHandler))
 				.build();
-		// @formatter:on
+	// @formatter:on
 	}
 
 	@Bean
